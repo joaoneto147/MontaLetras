@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/fundo"
+    tools:context="com.example.ntx.educa.MontaLetrasActivity">
+
+    <ImageView
+        android:id="@+id/figura"
+        android:layout_width="163dp"
+        android:layout_height="191dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
+        android:scaleType="centerInside"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.504"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/gato" />
+
+    <ImageView
+        android:id="@+id/input1"
+        android:layout_width="114dp"
+        android:layout_height="163dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:scaleType="centerInside"
+        app:layout_constraintEnd_toStartOf="@+id/input2"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/figura"
+        app:srcCompat="@drawable/input1" />
+
+    <ImageView
+        android:id="@+id/input2"
+        android:layout_width="114dp"
+        android:layout_height="163dp"
+        android:layout_marginTop="8dp"
+        android:scaleType="centerInside"
+        app:layout_constraintEnd_toStartOf="@+id/input3"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/input1"
+        app:layout_constraintTop_toBottomOf="@+id/figura"
+        app:srcCompat="@drawable/inputs2" />
+
+    <ImageView
+        android:id="@+id/input3"
+        android:layout_width="114dp"
+        android:layout_height="163dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
+        android:scaleType="centerInside"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/input2"
+        app:layout_constraintTop_toBottomOf="@+id/figura"
+        app:srcCompat="@drawable/inputs3" />
+
+    <ImageView
+        android:id="@+id/silabaInput1"
+        android:layout_width="77dp"
+        android:layout_height="56dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@+id/input1"
+        app:layout_constraintEnd_toStartOf="@+id/input2"
+        app:layout_constraintHorizontal_bias="0.69"
+        app:layout_constraintStart_toStartOf="@+id/input1"
+        app:layout_constraintTop_toTopOf="@+id/input1"
+        app:layout_constraintVertical_bias="0.833"
+        app:srcCompat="@drawable/inputletras" />
+
+    <ImageView
+        android:id="@+id/silabaInput2"
+        android:layout_width="77dp"
+        android:layout_height="56dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@+id/input2"
+        app:layout_constraintEnd_toStartOf="@+id/input3"
+        app:layout_constraintStart_toStartOf="@+id/input2"
+        app:layout_constraintTop_toTopOf="@+id/input2"
+        app:layout_constraintVertical_bias="0.83"
+        app:srcCompat="@drawable/inputletras" />
+
+    <ImageView
+        android:id="@+id/silabaInput3"
+        android:layout_width="77dp"
+        android:layout_height="56dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/input3"
+        app:layout_constraintEnd_toEndOf="@+id/input3"
+        app:layout_constraintHorizontal_bias="0.38"
+        app:layout_constraintStart_toStartOf="@+id/input3"
+        app:layout_constraintTop_toTopOf="@+id/input3"
+        app:layout_constraintVertical_bias="0.74"
+        app:srcCompat="@drawable/inputletras" />
+
+    <ImageView
+        android:id="@+id/silaba3"
+        android:layout_width="77dp"
+        android:layout_height="56dp"
+        android:layout_marginBottom="44dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/silaba2"
+        app:srcCompat="@drawable/bu" />
+
+    <ImageView
+        android:id="@+id/silaba2"
+        android:layout_width="77dp"
+        android:layout_height="56dp"
+        android:layout_marginBottom="44dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/silaba3"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/silaba1"
+        app:srcCompat="@drawable/co" />
+
+    <ImageView
+        android:id="@+id/silaba1"
+        android:layout_width="77dp"
+        android:layout_height="56dp"
+        android:layout_marginBottom="44dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/silaba2"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/ga" />
+
+</android.support.constraint.ConstraintLayout>
