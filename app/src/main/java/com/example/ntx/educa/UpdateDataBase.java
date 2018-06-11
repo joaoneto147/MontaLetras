@@ -30,7 +30,7 @@ public class UpdateDataBase {
         values.put(Contract.ContractObjetos.COLUMN_NOME, nome);
         values.put(Contract.ContractObjetos.COLUMN_SILABA, silaba);
         values.put(Contract.ContractObjetos.COLUMN_NIVEL, nivel);
-
+  //teste
         // insert into a row in database
         return db.insert(Contract.ContractObjetos.TABLE_NAME, null, values);
     }
