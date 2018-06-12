@@ -21,7 +21,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".MontaLetrasActivity" />
-        <activity android:name=".MemoriaActivity"></activity>
+        <activity android:name=".MemoriaActivity" />
+        <activity android:name=".NomeImagemActivity"></activity>
     </application>
 
 </manifest>
