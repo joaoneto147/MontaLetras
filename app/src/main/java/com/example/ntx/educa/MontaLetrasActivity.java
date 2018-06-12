@@ -3,6 +3,7 @@ package com.example.ntx.educa;
 import android.app.Application;
 import android.content.ClipData;
 import android.content.Context;
+import android.content.res.AssetFileDescriptor;
 import android.content.res.Resources;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
@@ -11,8 +12,10 @@ import android.media.Image;
 import android.media.MediaPlayer;
 import android.os.Handler;
 import android.os.Vibrator;
+import android.support.annotation.RawRes;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.DragEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -21,22 +24,38 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
+import java.io.IOException;
+import java.util.Collection;
+import java.util.Collections;
+
 
 public class MontaLetrasActivity extends AppCompatActivity implements Cloneable {
-
-    ViewGroup.LayoutParams params1, params2, params3;
 
     ImageView figura;
     ImageView input1, input2, input3;
     ImageView silabaInput1, silabaInput2, silabaInput3;
     ImageView silaba1, silaba2, silaba3;
     MontaLetras montaLetras;
-
-
-    MediaPlayer sucess;
+    MediaPlayer mp;
+    MediaPlayer mediaPlayer;
 
     DBHelper dbHelper;
+
     SQLiteDatabase db;
+
+    @Override public void onWindowFocusChanged(boolean hasFocus){
+        super.onWindowFocusChanged(hasFocus);
+
+        if ((hasFocus) && (!mediaPlayer.isPlaying())){
+            mediaPlayer = MediaPlayer.create(MontaLetrasActivity.this, R.raw.stage1);
+            mediaPlayer.start();
+            mediaPlayer.setLooping(true);
+        } else if (!hasFocus){
+            if (mediaPlayer.isPlaying()){
+                mediaPlayer.stop();
+            }
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +66,6 @@ public class MontaLetrasActivity extends AppCompatActivity implements Cloneable 
 
         dbHelper = new DBHelper(this.getBaseContext());
         db = dbHelper.getReadableDatabase();
-        dbHelper.onUpgrade(db, 1, 2);
 
         figura = (ImageView) findViewById(R.id.figura);
 
@@ -63,23 +81,35 @@ public class MontaLetrasActivity extends AppCompatActivity implements Cloneable 
         silaba2 = (ImageView) findViewById(R.id.silaba2);
         silaba3 = (ImageView) findViewById(R.id.silaba3);
 
-        params1 = silaba1.getLayoutParams();
-        params2 = silaba2.getLayoutParams();
-        params3 = silaba3.getLayoutParams();
-
         silabaInput1.setOnDragListener(dragListener);
         silabaInput2.setOnDragListener(dragListener);
         silabaInput3.setOnDragListener(dragListener);
 
-        sucess = MediaPlayer.create(MontaLetrasActivity.this, R.raw.sucesso);
 
-        MediaPlayer mediaPlayer = MediaPlayer.create(MontaLetrasActivity.this, R.raw.stage1);
+        mp = new MediaPlayer();
+        mp.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mp) {
+                mp.start();
+            }
+        });
+
+
+        mediaPlayer = MediaPlayer.create(MontaLetrasActivity.this, R.raw.stage1);
         mediaPlayer.start();
         mediaPlayer.setLooping(true);
 
         montaLetras = MontaLetrasDAO.buscarDadosNivelAtual(db, "ADM");
         DesenharImagensNivel();
     }
+
+    View.OnFocusChangeListener onFocusChangeListener = new View.OnFocusChangeListener() {
+        @Override
+        public void onFocusChange(View v, boolean hasFocus) {
+
+            mediaPlayer.stop();
+        }
+    };
 
     View.OnTouchListener onTouchListener = new View.OnTouchListener() {
 
@@ -96,11 +126,42 @@ public class MontaLetrasActivity extends AppCompatActivity implements Cloneable 
 
     };
 
+    public void SilabaInseridaLocal(Integer tagSilaba){
+        String silaba = montaLetras.getSilabaTag(tagSilaba);
+        switch (tagSilaba){
+            case 0:
+                silabaInput1.setImageResource(getImageDrawableResId(silaba));
+                break;
+            case 1:
+                silabaInput2.setImageResource(getImageDrawableResId(silaba));
+                break;
+            case 2:
+                silabaInput3.setImageResource(getImageDrawableResId(silaba));
+                break;
+        }
+    }
+
+    public void playSom(Integer musica){
+        try{
+            if (mp.isPlaying()) {
+                mp.stop();
+            }
+            mp.reset();
+            AssetFileDescriptor afd = null;
+
+            afd = getResources().openRawResourceFd(musica);
+            mp.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
+            mp.prepareAsync();
+        }catch (IOException e){
+            Log.e("", e.getMessage());
+        }
+    }
+
     View.OnDragListener dragListener = new View.OnDragListener() {
         @Override
         public boolean onDrag(View v, DragEvent event) {
 
-            final View view = (View) event.getLocalState();
+            final View dest = (View) event.getLocalState();
             int dragEvent = event.getAction();
 
             switch (dragEvent){
@@ -111,40 +172,20 @@ public class MontaLetrasActivity extends AppCompatActivity implements Cloneable 
                 case DragEvent.ACTION_DROP:
 
                     Boolean sucesso = false;
-                    ImageView input = null;
 
-                    if (view.getId() == silaba1.getId()){
-                        if (v.getId() == silabaInput1.getId()){
-                            sucesso = true;
-                            input = silabaInput1;
-                            silabaInput1.setImageDrawable(silaba1.getDrawable());
+                    ImageView silabaClicada = (ImageView) v;
+                    ImageView silabaInput = (ImageView) dest;
 
-                            montaLetras.getSilabas().get(0).setLocalCorreto(true);
-                        }
-                    }else if (view.getId() == silaba2.getId()){
-                        if (v.getId() == silabaInput2.getId()){
-                            sucesso = true;
-                            input = silabaInput2;
-                            silabaInput2.setImageDrawable(silaba2.getDrawable());
-                            montaLetras.getSilabas().get(1).setLocalCorreto(true);
-                        }
-                    }else if (view.getId() == silaba3.getId()){
-                        if (v.getId() == silabaInput3.getId()){
-                            sucesso = true;
-                            input = silabaInput3;
-                            silabaInput3.setImageDrawable(silaba3.getDrawable());
-                            montaLetras.getSilabas().get(2).setLocalCorreto(true);
-                        }
+                    if (silabaClicada.getTag() == silabaInput.getTag()){
+                        Integer posic = (Integer) silabaClicada.getTag();
+                        sucesso = true;
+                        SilabaInseridaLocal((Integer) silabaInput.getTag());
+                        montaLetras.getSilabas().get(posic).setLocalCorreto(true);
                     }
 
                     if (sucesso){
-                        view.setOnTouchListener(null);
-//                        view.animate()
-//                                .x(input.getX())
-//                                .y(input.getY())
-//                                .setDuration(700)
-//                                .start();
-                        sucess.start();
+                        dest.setOnTouchListener(null);
+                        playSom(R.raw.sucesso);
                         if (montaLetras.VerificarFimJogo()){
                             montaLetras.TrocarNivel(db);
                             DesenharImagensNivel();
@@ -180,26 +221,32 @@ public class MontaLetrasActivity extends AppCompatActivity implements Cloneable 
     private void DesenharImagensNivel(){
 
         silabaInput1.setImageResource(getImageDrawableResId("inputletras"));
+        silabaInput1.setTag(0);
         silabaInput2.setImageResource(getImageDrawableResId("inputletras"));
+        silabaInput2.setTag(1);
         silabaInput3.setImageResource(getImageDrawableResId("inputletras"));
+        silabaInput3.setTag(2);
 
         silaba1.setOnTouchListener(onTouchListener);
         silaba2.setOnTouchListener(onTouchListener);
         silaba3.setOnTouchListener(onTouchListener);
 
-        silaba1.setLayoutParams(params1);
-        silaba2.setLayoutParams(params2);
-        silaba3.setLayoutParams(params3);
-
         figura.setImageResource(getImageDrawableResId(montaLetras.getNomeFigura()));
+
+        Collections.shuffle(montaLetras.getSilabas());
+
         silaba1.setImageResource(getImageDrawableResId(montaLetras.getSilabas().get(0).getSilaba()));
+        silaba1.setTag(montaLetras.getSilabas().get(0).getPosic());
+
         silaba2.setImageResource(getImageDrawableResId(montaLetras.getSilabas().get(1).getSilaba()));
+        silaba2.setTag(montaLetras.getSilabas().get(1).getPosic());
 
         if (montaLetras.getSilabas().size() == 3){
             silaba3.setVisibility(View.VISIBLE);
             silabaInput3.setVisibility(View.VISIBLE);
             input3.setVisibility(View.VISIBLE);
             silaba3.setImageResource(getImageDrawableResId(montaLetras.getSilabas().get(2).getSilaba()));
+            silaba3.setTag(montaLetras.getSilabas().get(2).getPosic());
         }
 
     }

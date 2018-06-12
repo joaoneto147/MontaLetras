@@ -18,16 +18,24 @@ public class MontaLetras extends Objetos {
         this.nomeFigura = nome;
 
         ArrayList<String> silabas = Biblioteca.GetSilaba(silaba);
-        for (String s : silabas){
-            this.silabas.add(new Silaba(s));
+        for (Integer posic = 0; posic < silabas.size(); posic ++){
+            this.silabas.add(new Silaba(silabas.get(posic), posic));
         }
     }
 
     @Override
     protected void TrocarNivel(SQLiteDatabase db) {
-        this.silabas.clear();
+        Integer novoNivel;
+        this.silabas = new ArrayList<Silaba>();
         this.nomeFigura = null;
-        UpdateDataBase.avancarNivelMontaLetras(db, super.jogador, super.nivel + 1);
+
+        if (MontaLetrasDAO.verificarNivelMaximoAtingido(db, super.nivel)) {
+            novoNivel = 1;
+        }else{
+            novoNivel = super.nivel + 1;
+        }
+
+        UpdateDataBase.avancarNivelMontaLetras(db, super.jogador, novoNivel);
         IniciarObjetos(db, super.jogador);
     }
 
@@ -60,15 +68,19 @@ public class MontaLetras extends Objetos {
         return nomeFigura;
     }
 
-    public void setNomeFigura(String nomeFigura) {
-        this.nomeFigura = nomeFigura;
+
+    public String getSilabaTag(Integer tag){
+        String retorno = "";
+        for (Silaba s : silabas){
+            if (s.getPosic() == tag){
+                retorno = s.getSilaba();
+            }
+        }
+        return retorno;
     }
 
     public ArrayList<Silaba> getSilabas() {
         return silabas;
     }
 
-    public void setSilabas(ArrayList<Silaba> silabas) {
-        this.silabas = silabas;
-    }
 }

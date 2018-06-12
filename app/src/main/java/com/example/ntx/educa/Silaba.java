@@ -8,6 +8,16 @@ import java.util.ArrayList;
 
 public class Silaba{
     private String silaba;
+    private Integer posic;
+
+    public Integer getPosic() {
+        return posic;
+    }
+
+    public void setPosic(Integer posic) {
+        this.posic = posic;
+    }
+
     private Boolean localCorreto;
 
     public String getSilaba() {
@@ -26,8 +36,9 @@ public class Silaba{
         this.localCorreto = localCorreto;
     }
 
-    public Silaba(String silaba) {
+    public Silaba(String silaba, Integer posic) {
         this.silaba = silaba;
+        this.posic = posic;
         localCorreto = false;
     }
 }

@@ -67,4 +67,26 @@ public class MontaLetrasDAO {
         return nivel_atual;
     }
 
+    public static boolean verificarNivelMaximoAtingido(SQLiteDatabase db, Integer nivelAtual){
+        Boolean ultimo_nivel = false;
+        Integer nivelMaximo = 999999;
+        String select =
+                "SELECT " +
+                        "max( " + Contract.ContractObjetos.COLUMN_NIVEL + " ) " +
+                        "FROM " +
+                        Contract.ContractObjetos.TABLE_NAME + " ";
+
+        Cursor cursor = db.rawQuery(select, null);
+
+        if(cursor.moveToFirst()){
+            nivelMaximo = cursor.getInt(cursor.getColumnIndex(cursor.getColumnName(0)));
+        }
+
+        if (nivelAtual == nivelMaximo){
+            ultimo_nivel = true;
+        }
+
+        return ultimo_nivel;
+    }
+
 }
