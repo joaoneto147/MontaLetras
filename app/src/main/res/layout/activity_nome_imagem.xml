@@ -4,10 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/fundo2"
     tools:context="com.example.ntx.educa.NomeImagemActivity">
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/figNomeImagem"
         android:layout_width="266dp"
         android:layout_height="114dp"
         android:layout_marginEnd="8dp"
@@ -20,53 +21,53 @@
         app:srcCompat="@drawable/boneca" />
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/img1"
         android:layout_width="167dp"
         android:layout_height="172dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="84dp"
-        app:layout_constraintEnd_toStartOf="@+id/imageView5"
+        android:layout_marginTop="40dp"
+        app:layout_constraintEnd_toStartOf="@+id/img2"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView"
+        app:layout_constraintTop_toBottomOf="@+id/figNomeImagem"
         app:srcCompat="@drawable/bolo" />
 
     <ImageView
-        android:id="@+id/imageView5"
+        android:id="@+id/img2"
         android:layout_width="167dp"
         android:layout_height="172dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginTop="84dp"
+        android:layout_marginTop="40dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/imageView2"
-        app:layout_constraintTop_toBottomOf="@+id/imageView"
+        app:layout_constraintStart_toEndOf="@+id/img1"
+        app:layout_constraintTop_toBottomOf="@+id/figNomeImagem"
         app:srcCompat="@drawable/bolo" />
 
     <ImageView
-        android:id="@+id/imageView6"
+        android:id="@+id/img3"
         android:layout_width="167dp"
         android:layout_height="172dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="12dp"
-        app:layout_constraintEnd_toStartOf="@+id/imageView7"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toStartOf="@+id/img4"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2"
+        app:layout_constraintTop_toBottomOf="@+id/img1"
         app:srcCompat="@drawable/bolo" />
 
     <ImageView
-        android:id="@+id/imageView7"
+        android:id="@+id/img4"
         android:layout_width="167dp"
         android:layout_height="172dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/imageView6"
-        app:layout_constraintTop_toBottomOf="@+id/imageView5"
+        app:layout_constraintStart_toEndOf="@+id/img3"
+        app:layout_constraintTop_toBottomOf="@+id/img2"
         app:srcCompat="@drawable/bolo" />
 
 </android.support.constraint.ConstraintLayout>

@@ -12,6 +12,8 @@ import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
 
+    MediaPlayer mediaPlayer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,5 +39,33 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        Button btnNomeImagem = (Button) findViewById(R.id.btnNomeImagem);
+        btnNomeImagem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, NomeImagemActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        mediaPlayer = MediaPlayer.create(MainActivity.this, R.raw.menu);
+        mediaPlayer.start();
+        mediaPlayer.setLooping(true);
+
+    }
+
+    @Override public void onWindowFocusChanged(boolean hasFocus){
+        super.onWindowFocusChanged(hasFocus);
+
+        if ((hasFocus) && (!mediaPlayer.isPlaying())){
+            mediaPlayer = MediaPlayer.create(MainActivity.this, R.raw.menu);
+            mediaPlayer.start();
+            mediaPlayer.setLooping(true);
+        } else if (!hasFocus){
+            if (mediaPlayer.isPlaying()){
+                mediaPlayer.stop();
+            }
+        }
     }
 }

@@ -1,31 +1,24 @@
 package com.example.ntx.educa;
 
-import android.app.Application;
 import android.content.ClipData;
 import android.content.Context;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.Resources;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.media.Image;
 import android.media.MediaPlayer;
 import android.os.Handler;
 import android.os.Vibrator;
-import android.support.annotation.RawRes;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.DragEvent;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
 import java.io.IOException;
-import java.util.Collection;
 import java.util.Collections;
 
 
@@ -191,8 +184,7 @@ public class MontaLetrasActivity extends AppCompatActivity implements Cloneable 
                             DesenharImagensNivel();
                         }
                     }else{
-                        MediaPlayer mediaPlayer = MediaPlayer.create(MontaLetrasActivity.this, R.raw.wrong);
-                        mediaPlayer.start();
+                        playSom(R.raw.wrong);
                         vibrar();
                     }
 
@@ -241,12 +233,16 @@ public class MontaLetrasActivity extends AppCompatActivity implements Cloneable 
         silaba2.setImageResource(getImageDrawableResId(montaLetras.getSilabas().get(1).getSilaba()));
         silaba2.setTag(montaLetras.getSilabas().get(1).getPosic());
 
-        if (montaLetras.getSilabas().size() == 3){
+        if (montaLetras.getNivel() > 13){
             silaba3.setVisibility(View.VISIBLE);
             silabaInput3.setVisibility(View.VISIBLE);
             input3.setVisibility(View.VISIBLE);
             silaba3.setImageResource(getImageDrawableResId(montaLetras.getSilabas().get(2).getSilaba()));
             silaba3.setTag(montaLetras.getSilabas().get(2).getPosic());
+        } else{
+            silaba3.setVisibility(View.GONE);
+            silabaInput3.setVisibility(View.GONE);
+            input3.setVisibility(View.GONE);
         }
 
     }
